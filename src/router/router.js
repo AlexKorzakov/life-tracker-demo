@@ -12,6 +12,7 @@ export default class Router {
       },
     ];
     this.currentPath = window.location.pathname;
+    this.currentPage = null;
 
     const notFoundPage = document.createElement("div");
     notFoundPage.textContent = "Not Found";
@@ -45,11 +46,13 @@ export default class Router {
       this.container.replaceChildren(this.notFoundPage);
       return;
     }
+    if (this.currentPage?.destroy) this.currentPage.destroy();
 
     try {
       const module = await route.component();
-      const page = module.default;
-      this.container.replaceChildren(page());
+      const page = module.default();
+      this.currentPage = page;
+      this.container.replaceChildren(page.element);
     } catch (e) {
       console.log(e);
     }

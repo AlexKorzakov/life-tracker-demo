@@ -1,17 +1,50 @@
+import { userStore } from "../../store";
+import Input from "../components/Input";
+
 export default function HomePage() {
   const main = document.createElement("div");
   main.className = "home page";
 
-  const p = document.createElement("p");
-  p.textContent = "Home Page!";
+  const pageHeader = document.createElement("h1");
+  pageHeader.textContent = "Home Page!";
 
-  const link = document.createElement("a");
-  link.href = "/settings";
-  const span = document.createElement("span");
-  span.textContent = "link";
-  link.appendChild(span);
+  const userInput = Input({
+    className: "user-input",
+    type: "text",
+    name: "name",
+    autocomplete: "off",
+  });
 
-  main.append(p, link);
+  const userName = document.createElement("p");
+  userName.className = "user-name";
+  userName.textContent = `User name: ${userStore.name}`;
 
-  return main;
+  const unsubscribe = userStore.subscribe((name) => {
+    userName.textContent = `User name: ${name}`;
+  });
+
+  const userButton = document.createElement("button");
+  userButton.type = "submit";
+  userButton.textContent = "Add Name";
+
+  const userForm = document.createElement("form");
+  userForm.append(userName, userInput, userButton);
+
+  userForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    userStore.name = userInput.value;
+  });
+
+  const a = document.createElement("a");
+  a.href = "/settings";
+  a.textContent = "Settings page";
+
+  main.append(pageHeader, userForm, a);
+
+  return {
+    element: main,
+    destroy() {
+      unsubscribe();
+    },
+  };
 }
