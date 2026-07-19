@@ -4,11 +4,11 @@ export default class Router {
     this.routes = [
       {
         path: "/",
-        component: () => import("../ui/pages/Home"),
+        page: () => import("../ui/pages/Home"),
       },
       {
         path: "/settings",
-        component: () => import("../ui/pages/Settings"),
+        page: () => import("../ui/pages/Settings"),
       },
     ];
     this.currentPath = window.location.pathname;
@@ -49,7 +49,7 @@ export default class Router {
     if (this.currentPage?.destroy) this.currentPage.destroy();
 
     try {
-      const module = await route.component();
+      const module = await route.page();
       const page = module.default();
       this.currentPage = page;
       this.container.replaceChildren(page.element);
