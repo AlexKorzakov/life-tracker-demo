@@ -1,3 +1,3 @@
-import UserStore from "./userStore.js";
+import UserStore from "./UserStore.js";
 
 export const userStore = new UserStore();

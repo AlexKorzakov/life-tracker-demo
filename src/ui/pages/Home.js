@@ -1,7 +1,7 @@
-import { userStore } from "../../store";
 import Input from "../components/Input";
+import User from "../../domain/User";
 
-export default function HomePage() {
+export default function HomePage({ userStore }) {
   const main = document.createElement("div");
   main.className = "home page";
 
@@ -17,9 +17,10 @@ export default function HomePage() {
 
   const userName = document.createElement("p");
   userName.className = "user-name";
-  userName.textContent = `User name: ${userStore.name}`;
+  userName.textContent = `User name: ${userStore.getState().user?.name || "None"}`;
 
-  const unsubscribe = userStore.subscribe((name) => {
+  const unsubscribe = userStore.subscribe((state) => {
+    const name = state.user?.name || "None";
     userName.textContent = `User name: ${name}`;
   });
 
@@ -32,7 +33,9 @@ export default function HomePage() {
 
   userForm.addEventListener("submit", (e) => {
     e.preventDefault();
-    userStore.name = userInput.value;
+    const name = userInput.value;
+    const user = new User({name});
+    userStore.setUser({user});
   });
 
   const a = document.createElement("a");
