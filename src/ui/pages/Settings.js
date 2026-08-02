@@ -1,6 +1,4 @@
-import { userStore } from "../../store";
-
-export default function SettingsPage() {
+export default function SettingsPage({ userStore }) {
   const container = document.createElement("div");
   container.className = "settings page";
 
@@ -9,7 +7,7 @@ export default function SettingsPage() {
 
   const userName = document.createElement("div");
   userName.className = "userName";
-  userName.textContent = `User name: ${userStore.name}`;
+  userName.textContent = `User name: ${userStore.getState().user.name}`;
 
   const backHome = document.createElement("a");
   backHome.href = "/";
