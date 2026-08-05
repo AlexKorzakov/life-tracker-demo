@@ -27,7 +27,7 @@ export default function SignUpPage(context) {
         await context.router.redirect("/");
       } catch (err) {
         console.error(`Registration error: ${err}`);
-        alert("Registration error, try again later.");
+        alert(`Registration error, try again later.\n${err.message}`);
       }
     }
   });
