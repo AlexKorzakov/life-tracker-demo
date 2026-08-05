@@ -30,7 +30,7 @@ export class UserRepository {
         const objectStore = transaction.objectStore("user");
         const objectStoreRequest = objectStore.add(data);
         objectStoreRequest.onerror = (event) => {
-          console.error(`\u274e Failed to add user ${username}`);
+          console.error(`\u274e Failed to add user ${user.name}`);
           reject(event.target.error);
         };
         objectStoreRequest.onsuccess = (event) => {
@@ -85,7 +85,9 @@ export class UserRepository {
         };
 
         const objectStore = transaction.objectStore("user");
-        const objectStoreRequest = objectStore.get(email);
+        // const objectStoreRequest = objectStore.get(email);
+        const index = objectStore.index("email");
+        const objectStoreRequest = index.get(email);
         objectStoreRequest.onerror = (event) => {
           console.error(`\u274e Object Store Request error: ${event.target.error}`);
           reject(event.target.error);
