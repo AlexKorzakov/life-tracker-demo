@@ -39,8 +39,8 @@ export default function HomePage({ userStore }) {
   });
 
   const a = document.createElement("a");
-  a.href = "/settings";
-  a.textContent = "Settings page";
+  a.href = "/signup";
+  a.textContent = "Sign up";
 
   main.append(pageHeader, userForm, a);
 

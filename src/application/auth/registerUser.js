@@ -4,15 +4,23 @@ export async function registerUser({
   userRepository,
   sessionStorage,
   userStore,
-  router,
   formData,
 }) {
-  const user = new User(formData);
-  const userId = userRepository.addUser(user);
+  const existingUser = await userRepository.findByEmail(formData.email);
+  if (existingUser) {
+    throw new Error("Пользователь с таким email уже сущесвует");
+  }
 
-  sessionStorage.setCurrentUserId(userId);
+  let user = User.fromDTO(formData)
 
-  userStore.setUser(user);
-
-  await router.navigate("/dashboard");
+  try {
+    const savedUser = await userRepository.save(user);
+    userStore.setUser(savedUser.toDTO());
+    sessionStorage.setCurrentUserId(savedUser.id);
+  } catch (err) {
+    if (err.name === "ConstraintError") {
+      throw new Error("User with this email already exists");
+    }
+    throw err;
+  }
 };

@@ -4,5 +4,6 @@ export default function setupSchema(event) {
   console.log(`Upgrading to version ${db.version}`);
 
   const objectStore = db.createObjectStore("user", { keyPath: "id", autoIncrement: true });
+  objectStore.createIndex("email", "email", { unique: true });
   return objectStore;
 }
