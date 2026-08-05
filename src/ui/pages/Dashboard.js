@@ -1,4 +1,4 @@
-export default function DashboardPage() {
+export default function DashboardPage({userStore}) {
   const container = document.createElement("div");
   container.className = "dashboard page";
 
@@ -6,6 +6,7 @@ export default function DashboardPage() {
   pageHeader.textContent = "Dashboard Page!";
 
   container.append(pageHeader);
+  console.log(userStore);
 
   return {
     element: container,

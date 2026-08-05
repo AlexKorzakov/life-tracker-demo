@@ -11,7 +11,7 @@ export class SessionStorage {
     localStorage.setItem(this._keys.SESSION_USER_ID, id);
   }
 
-  clearCurrentuserId() {
+  clearCurrentUserId() {
     localStorage.removeItem(this._keys.SESSION_USER_ID);
   }
 }
