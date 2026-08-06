@@ -1,23 +1,26 @@
+import LoginForm from "../components/LoginForm";
+import { authenticateUser } from "../../application/auth/authenticateUser";
+
 export default function SignInPage(context) {
   const container = document.createElement("div");
   container.className = "sign in page";
 
-  const pageHeader = document.createElement("h1");
-  pageHeader.textContent = "Sign in Page!";
+  const loginForm = LoginForm();
 
-  const signUp = document.createElement("div");
-  signUp.className = "signUp";
+  container.append(loginForm);
 
-  const textSpan = document.createElement("span");
-  textSpan.textContent = "New to LifeTracker? ";
+  loginForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const email = new FormData(loginForm).get("email");
+    try {
+      await authenticateUser({ ...context, email });
+      await context.router.redirect("/");
+    } catch (err) {
+      console.error(err);
+      alert(err.message);
+    }
 
-  const signUpLink = document.createElement("a");
-  signUpLink.href = "/signup";
-  signUpLink.textContent = "Create an account";
-
-  signUp.append(textSpan, signUpLink);
-
-  container.append(pageHeader, signUp);
+  });
 
   return {
     element: container,

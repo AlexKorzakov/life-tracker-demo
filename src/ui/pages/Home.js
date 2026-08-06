@@ -38,11 +38,27 @@ export default function HomePage({ userStore }) {
     userStore.setUser({user});
   });
 
-  const a = document.createElement("a");
-  a.href = "/signup";
-  a.textContent = "Sign up";
+  const linksContainer = document.createElement("div");
+  linksContainer.className = "links-container";
 
-  main.append(pageHeader, userForm, a);
+  const links = [
+    {href: "/login", textContent: "Sign in"},
+    {href: "/signup", textContent: "Sign up"},
+  ];
+
+  links.forEach((link) => {
+    linksContainer.appendChild(createLinkElement(link));
+  });
+
+  function createLinkElement({ href, textContent }) {
+    let linkElement = document.createElement("a");
+    linkElement.href = href;
+    linkElement.textContent = textContent;
+    linkElement.className = "auth-link"
+    return linkElement;
+  }
+
+  main.append(pageHeader, userForm, linksContainer);
 
   return {
     element: main,
