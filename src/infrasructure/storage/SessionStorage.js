@@ -4,7 +4,9 @@ export class SessionStorage {
   }
 
   getCurrentUserId() {
-    return localStorage.getItem(this._keys.SESSION_USER_ID);
+    const value = localStorage.getItem(this._keys.SESSION_USER_ID);
+    const id = Number(value);
+    return (Number.isInteger(id) && id > 0) ? id : null;
   }
 
   setCurrentUserId(id) {
