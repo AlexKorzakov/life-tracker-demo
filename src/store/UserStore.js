@@ -8,7 +8,11 @@ export default class UserStore extends BaseStore {
   }
 
   setUser(user) {
-    this.setState({user: user});
+    this.setState({ user: user });
+  }
+
+  clear() {
+    this.setState({ user: null });
   }
 }
 
